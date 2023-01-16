@@ -16,4 +16,5 @@ class Contact(BaseModel):
 @app.get("/contacts")
 def read_root(name):
     response = name
-    return response
+
+    return {f"Sucess : response: {response}"}
