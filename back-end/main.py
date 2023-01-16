@@ -7,8 +7,9 @@ app = FastAPI()
 
 
 @app.get("/")
-def read_root(contact_dto):
-    return {"Hello": "World"}
+def read_root(dto: contact_dto):
+    response = dto.name_validation
+    return {f"response:{response} "}
 
 
 @app.get("/items/{item_id}")
