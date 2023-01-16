@@ -1,12 +1,13 @@
 from typing import Union
 
+from dtos import contact_dto
 from fastapi import FastAPI
 
 app = FastAPI()
 
 
 @app.get("/")
-def read_root():
+def read_root(contact_dto):
     return {"Hello": "World"}
 
 
