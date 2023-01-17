@@ -19,5 +19,5 @@ def read_root():
 def create_contatct(name: str, phone: str, email: str):
     query = f"INSERT INTO list_contacts (name,phone,email) VALUES('{name}','{phone}','{email}');"
     Postgres.post_contacts_postgres(query)
-
+    print(query)
     return {f"Sucess : response:"}
