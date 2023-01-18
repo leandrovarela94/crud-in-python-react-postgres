@@ -18,3 +18,11 @@ class Postgres(BaseModel):
     def post_contacts_postgres(query):
         connect = Postgres.conect_postgres()
         connect.execute(query)
+
+    def post_delete_postgres(query):
+        connect = Postgres.conect_postgres()
+        connect.execute(query)
+
+    def post_update_postgres(query):
+        connect = Postgres.conect_postgres()
+        connect.execute(query)
