@@ -31,13 +31,13 @@ class ContactSevices(BaseModel):
 
     def delete_contact_postgres(id: int):
 
-        cur.execute("DELETE FROM list_contacts WHERE id = (%s) ", (id))
+        cur.execute(f"DELETE FROM list_contacts WHERE id = ({id})")
 
         conn.commit()
 
     def update_contact_postgres(contact, id):
 
         cur.execute(
-            "UPDATE list_contacts set name = %s, phone = %s, email = %s WHERE id = %s ", (contact.name, contact.phone, contact.email, id))
+            f"UPDATE list_contacts set name = '{contact.name}', phone = '{contact.phone}', email ='{contact.email}' WHERE id = {id} ")
 
         conn.commit()

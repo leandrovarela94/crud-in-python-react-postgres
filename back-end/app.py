@@ -25,14 +25,14 @@ def create_contact(contact: Contact):
 
     ContactSevices.post_contacts_postgres(contact)
 
-    return {f"Sucess : response: {contact}"}
+    return {f"Sucess Created"}
 
 
 @app.delete("/contacts/{id}")
 def delete_contact(id: int):
 
     x = ContactSevices.delete_contact_postgres(id)
-    return {f"Sucess : response:{id}"}
+    return {f"Sucess : Deleted"}
 
 
 @app.put("/contacts/{id}")
@@ -40,4 +40,5 @@ def update_contact(contact: Contact, id: int):
 
     x = ContactSevices.update_contact_postgres(
         contact, id)
-    return {f"Sucess : response:{contact} and id : {id}"}
+
+    return {f"Sucess Updated"}
