@@ -19,7 +19,7 @@ const ContactRenders = () => {
   const [load, setLoad] = useState(true);
 
   const getContacts = () => {
-    fetch("http://localhost:5200/contacts/", {
+    fetch("http://127.0.0.1:8000/contacts/", {
       method: "GET",
     })
       .then((resp) => resp.json())
@@ -36,7 +36,7 @@ const ContactRenders = () => {
 
     setLoad(true);
 
-    fetch("http://localhost:5200/contacts", {
+    fetch("http://127.0.0.1:8000/contacts/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -59,7 +59,7 @@ const ContactRenders = () => {
   const deleteContact = (id) => {
     setLoad(true);
 
-    fetch(`http://localhost:5200/contacts/${id}`, {
+    fetch(`http://127.0.0.1:8000/contacts/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -77,7 +77,7 @@ const ContactRenders = () => {
     const { id, name, phone, email } = currentContact;
     setLoad(true);
 
-    fetch(`http://localhost:5200/contacts/${id}`, {
+    fetch(`http://127.0.0.1:8000/contacts/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

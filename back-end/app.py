@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Query
+from fastapi import FastAPI
 from models.contact import Contact
 from services.contact_services import ContactSevices
 
