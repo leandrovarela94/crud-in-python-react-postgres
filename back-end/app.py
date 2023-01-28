@@ -1,46 +1,75 @@
-from fastapi import FastAPI, Query
-from pydantic import BaseModel
-from sql.postgres import Postgres
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from models.contact import Contact
+from services.contact_services import ContactSevices
 
 app = FastAPI()
 
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
 @app.get("/contacts/")
 async def read_all():
-    query = 'SELECT * FROM list_contacts'
-    result = Postgres.get_contacts_postgres(query)
 
-    return result
+    result = ContactSevices.get_contact_postgres()
+
+    response_final = []
+
+    for item in result:
+        response_final.append({
+            "id": item[0],
+            "name": item[1],
+            "phone": item[2],
+            "email": item[3]
+        })
+
+    return response_final
 
 
 @app.get("/contacts/{id}")
 async def read_one(id: int):
-    query = f"SELECT * FROM list_contacts WHERE id ={id}"
-    result = Postgres.get_contacts_postgres(query)
 
-    return result
+    result = ContactSevices.get_one_contacts_postgres(id)
+
+    response_final = []
+
+    for item in result:
+        response_final.append({
+            "id": item[0],
+            "name": item[1],
+            "phone": item[2],
+            "email": item[3]
+        })
+
+    return response_final
 
 
 @app.post("/contacts/")
-async def create_contact(name: str, phone: str, email: str):
-    query = f"INSERT INTO list_contacts (name,phone,email) VALUES('{name}','{phone}','{email}')"
-    Postgres.post_contacts_postgres(query)
-    print(query)
-    return {f"Sucess : response:"}
+def create_contact(contact: Contact):
+
+    ContactSevices.post_contacts_postgres(contact)
+
+    return {f"Sucess Created"}
 
 
 @app.delete("/contacts/{id}")
-async def delete_contact(id: int):
-    id_query: str = id
-    query = f"DELETE FROM list_contacts WHERE id = {id_query} ;"
-    Postgres.post_delete_postgres(query)
-    print(query)
-    return {f"Sucess : response:"}
+def delete_contact(id: int):
+
+    x = ContactSevices.delete_contact_postgres(id)
+    return {f"Sucess : Deleted"}
 
 
 @app.put("/contacts/{id}")
-async def update_contact(name: str, phone: str, email: str, id: int):
-    query = f"UPDATE list_contacts set name = '{name}', phone = '{phone}', email = '{email}' WHERE id = ({id}) ;"
-    Postgres.post_update_postgres(query)
-    print(query)
-    return {f"Sucess : response:"}
+def update_contact(contact: Contact, id: int):
+
+    x = ContactSevices.update_contact_postgres(
+        contact, id)
+
+    return {f"Sucess Updated"}
