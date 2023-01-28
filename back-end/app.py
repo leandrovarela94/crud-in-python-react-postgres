@@ -1,15 +1,36 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from models.contact import Contact
 from services.contact_services import ContactSevices
 
 app = FastAPI()
 
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
 @app.get("/contacts/")
 async def read_all():
+
     result = ContactSevices.get_contact_postgres()
 
-    return result
+    response_final = []
+
+    for item in result:
+        response_final.append({
+            "id": item[0],
+            "name": item[1],
+            "phone": item[2],
+            "email": item[3]
+        })
+
+    return response_final
 
 
 @app.get("/contacts/{id}")
@@ -17,7 +38,17 @@ async def read_one(id: int):
 
     result = ContactSevices.get_one_contacts_postgres(id)
 
-    return result
+    response_final = []
+
+    for item in result:
+        response_final.append({
+            "id": item[0],
+            "name": item[1],
+            "phone": item[2],
+            "email": item[3]
+        })
+
+    return response_final
 
 
 @app.post("/contacts/")
